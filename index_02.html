@@ -1,235 +1,238 @@
 <!DOCTYPE html>
 <html lang="ja">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-		/>
-		<title>晩御飯ルーレット【メニュー初期搭載版】</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>晩御飯ルーレット</title>
 
-		<style>
-			/* iPhone向けデザイン */
-			body {
-			  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-			  padding: 10px;
-			  background: linear-gradient(#fceabb, #f8b500);
-			  text-align: center;
-			  color: #333;
-			  margin: 0;
-			  -webkit-tap-highlight-color: transparent;
-			}
+<style>
+/* iPhoneに最適化されたスタイル */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 10px;
+  background-color: #f8b500;
+  background: linear-gradient(#fceabb, #f8b500);
+  text-align: center;
+  color: #333 !important; /* 文字色を強制 */
+  margin: 0;
+  min-height: 100vh;
+}
 
-			h2 { font-size: 24px; color: #5d4037; margin: 15px 0; }
+h2, h3 { color: #5d4037 !important; margin: 15px 0; }
 
-			button {
-			  width: 90%;
-			  max-width: 400px;
-			  padding: 16px;
-			  margin: 8px 0;
-			  font-size: 18px;
-			  font-weight: bold;
-			  color: white;
-			  border: none;
-			  border-radius: 12px;
-			  background: linear-gradient(135deg, #ff6a88, #ff99ac);
-			  box-shadow: 0 4px 0 #cc4b66;
-			  cursor: pointer;
-			}
+button {
+  width: 90%;
+  max-width: 400px;
+  padding: 16px;
+  margin: 8px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: white !important;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff6a88, #ff99ac);
+  box-shadow: 0 4px 0 #cc4b66;
+  cursor: pointer;
+  -webkit-appearance: none;
+}
 
-			button:active { transform: translateY(2px); box-shadow: 0 2px 0 #cc4b66; }
+.input-section {
+  background: rgba(255, 255, 255, 0.9);
+  margin: 10px auto; padding: 15px; border-radius: 12px; max-width: 450px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-			.input-section {
-			  background: rgba(255, 255, 255, 0.8);
-			  margin: 10px auto; padding: 12px; border-radius: 12px; max-width: 450px;
-			}
+input {
+  width: 60%; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;
+  background: white !important; color: #333 !important;
+}
 
-			input {
-			  width: 65%; padding: 10px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;
-			}
+.add-btn {
+  width: auto; padding: 10px 15px; font-size: 14px; background: #5d4037; box-shadow: 0 3px 0 #3e2723;
+}
 
-			.add-btn {
-			  width: auto; padding: 10px 15px; font-size: 14px; background: #5d4037; box-shadow: 0 3px 0 #3e2723;
-			}
+.day-card {
+  margin: 10px auto; padding: 15px; max-width: 450px; background: white; border-radius: 15px; 
+  font-size: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: left; color: #333;
+}
 
-			.day-card {
-			  margin: 10px auto; padding: 15px; max-width: 450px; background: white; border-radius: 15px; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); text-align: left;
-			}
+table { width: 100%; margin: 20px 0; border-collapse: collapse; background: white; font-size: 13px; table-layout: fixed; }
+th, td { border: 1px solid #ddd; padding: 10px 2px; vertical-align: top; word-wrap: break-word; color: #333 !important; }
+th { background: #ffcc70; font-weight: bold; }
+.del-text { color: #ff4444 !important; font-size: 11px; text-decoration: underline; display: block; margin-top: 6px; }
+</style>
+</head>
 
-			table { width: 100%; margin: 20px 0; border-collapse: collapse; background: white; font-size: 13px; table-layout: fixed; }
-			th, td { border: 1px solid #ddd; padding: 8px 2px; vertical-align: top; word-wrap: break-word; }
-			th { background: #ffcc70; }
-			.del-text { color: #ff4444; font-size: 10px; text-decoration: underline; display: block; margin-top: 4px; }
-		</style>
-	</head>
+<body>
 
-	<body>
-		<h2>🍽 晩御飯ルーレット</h2>
+<h2>🍽 晩御飯ルーレット</h2>
 
-		<button id="btn-normal">🎯 5日分決める</button>
-		<button
-			id="btn-hard"
-			style="background:#ffcc70; color:#5d4037; box-shadow: 0 4px 0 #e6b866;"
-		>
-			⚡ 手間料理を含める
-		</button>
+<button id="btn-normal">🎯 5日分決める</button>
+<button id="btn-hard" style="background:#ffcc70; color:#5d4037 !important; box-shadow: 0 4px 0 #e6b866;">⚡ 手間料理を含める</button>
 
-		<div id="result-display"></div>
+<div id="result-display"></div>
 
-		<hr />
+<hr>
 
-		<h3>メニュー追加</h3>
-		<div class="input-section">
-			<input type="text" id="in-main" placeholder="主菜" />
-			<button class="add-btn" id="add-main">追加</button>
-		</div>
-		<div class="input-section">
-			<input type="text" id="in-hard" placeholder="手間主菜" />
-			<button class="add-btn" id="add-hard">追加</button>
-		</div>
-		<div class="input-section">
-			<input type="text" id="in-side" placeholder="副菜" />
-			<button class="add-btn" id="add-side">追加</button>
-		</div>
-		<div class="input-section">
-			<input type="text" id="in-soup" placeholder="汁物" />
-			<button class="add-btn" id="add-soup">追加</button>
-		</div>
+<h3>メニュー追加</h3>
+<div class="input-section">
+  <input type="text" id="in-main" placeholder="主菜">
+  <button class="add-btn" id="add-main">追加</button>
+</div>
+<div class="input-section">
+  <input type="text" id="in-hard" placeholder="手間主菜">
+  <button class="add-btn" id="add-hard">追加</button>
+</div>
+<div class="input-section">
+  <input type="text" id="in-side" placeholder="副菜">
+  <button class="add-btn" id="add-side">追加</button>
+</div>
+<div class="input-section">
+  <input type="text" id="in-soup" placeholder="汁物">
+  <button class="add-btn" id="add-soup">追加</button>
+</div>
 
-		<hr />
+<hr>
 
-		<h3>データ管理</h3>
-		<button
-			id="btn-reset"
-			style="background:#f44336; box-shadow:0 3px 0 #b71c1c; font-size:14px; width:90%; margin-bottom:10px;"
-		>
-			⚠️ 初期状態(画像メニュー)に戻す
-		</button>
-		<br />
-		<button
-			id="btn-copy"
-			style="background:#4CAF50; box-shadow:0 3px 0 #2e7d32; font-size:14px; width:43%;"
-		>
-			📋 コピー
-		</button>
-		<button
-			id="btn-restore"
-			style="background:#2196F3; box-shadow:0 3px 0 #1976D2; font-size:14px; width:43%;"
-		>
-			📥 復元
-		</button>
+<h3>データ管理</h3>
+<button id="btn-reset" style="background:#f44336; box-shadow:0 3px 0 #b71c1c; font-size:14px; width:90%;">⚠️ メニューが表示されない場合はここを押す</button>
+<div style="margin-top:10px;">
+  <button id="btn-copy" style="background:#4CAF50; box-shadow:0 3px 0 #2e7d32; font-size:14px; width:43%;">📋 コピー</button>
+  <button id="btn-restore" style="background:#2196F3; box-shadow:0 3px 0 #1976D2; font-size:14px; width:43%;">📥 復元</button>
+</div>
 
-		<table>
-			<tr>
-				<th>主菜</th>
-				<th>手間</th>
-				<th>副菜</th>
-				<th>汁物</th>
-			</tr>
-			<tr>
-				<td id="list-main"></td>
-				<td id="list-hard"></td>
-				<td id="list-side"></td>
-				<td id="list-soup"></td>
-			</tr>
-		</table>
+<table>
+  <thead>
+    <tr><th>主菜</th><th>手間</th><th>副菜</th><th>汁物</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="list-main"></td>
+      <td id="list-hard"></td>
+      <td id="list-side"></td>
+      <td id="list-soup"></td>
+    </tr>
+  </tbody>
+</table>
 
-		<script>
-			// --- 画像から作成した初期データ ---
-			const defaultMenu = {
-			  main: ["アジフライ","エビチリ","エビフライ","エビマヨ","キーマカレー","ささみのフライ","サーモンフライ","サーモンムニエル","しょうが焼き","チキン南蛮","ハンバーグ","ブリ大根","ピーマンの肉詰め","回鍋肉","よだれ鶏","れんこんつくね","春巻き","煮込みハンバーグ","手羽先揚げ","油淋鶏","肉じゃが","肉豆腐","豚カツ","豚の角煮","青椒肉絲","鶏のトマト煮","鶏の照り焼き","ヒレカツ","白身魚フライ"],
-			  hard: ["コロッケ","グラタン","メンチカツ","スコッチエッグ"],
-			  side: ["オクラ納豆","きんぴらごぼう","ししゃも","じゃーまんぽてと","チヂミ","ナスの揚げ浸し","ほうれん草の胡麻あえ","ポテトサラダ","マカロニサラダ","大根サラダ","大根と鶏ミンチの煮物","切り干し大根","厚揚げの煮物","小松菜チャプチェ","揚げ出し豆腐","焼き茄子","筑前煮","茶碗蒸し","野菜炒め","鮭塩焼き","鯖の塩焼き","中華サラダ","水菜とじゃこのサラダ","イカとポテト","ブロッコリーサラダ","コールスロー","フランクフルト","れんこんスティック"],
-			  soup: ["じゃがいもの味噌汁","コンソメスープ","ニラと厚揚げの味噌汁","ミネストローネ","ラタトゥーユ","卵スープ","大根の味噌汁","白菜だんごスープ","白菜の味噌汁","豚汁"]
-			};
+<script>
+// 画像メニューデータ
+const IMAGE_MENU = {
+  main: ["アジフライ","エビチリ","エビフライ","エビマヨ","キーマカレー","ささみのフライ","サーモンフライ","サーモンムニエル","しょうが焼き","チキン南蛮","ハンバーグ","ブリ大根","ピーマンの肉詰め","回鍋肉","よだれ鶏","れんこんつくね","春巻き","煮込みハンバーグ","手羽先揚げ","油淋鶏","肉じゃが","肉豆腐","豚カツ","豚の角煮","青椒肉絲","鶏のトマト煮","鶏の照り焼き","ヒレカツ","白身魚フライ"],
+  hard: ["コロッケ","グラタン","メンチカツ","スコッチエッグ"],
+  side: ["オクラ納豆","きんぴらごぼう","ししゃも","じゃーまんぽてと","チヂミ","ナスの揚げ浸し","ほうれん草の胡麻あえ","ポテトサラダ","マカロニサラダ","大根サラダ","大根と鶏ミンチの煮物","切り干し大根","厚揚げの煮物","小松菜チャプチェ","揚げ出し豆腐","焼き茄子","筑前煮","茶碗蒸し","野菜炒め","鮭塩焼き","鯖の塩焼き","中華サラダ","水菜とじゃこのサラダ","イカとポテト","ブロッコリーサラダ","コールスロー","フランクフルト","れんこんスティック"],
+  soup: ["じゃがいもの味噌汁","コンソメスープ","ニラと厚揚げの味噌汁","ミネストローネ","ラタトゥーユ","卵スープ","大根の味噌汁","白菜だんごスープ","白菜の味噌汁","豚汁"]
+};
 
-			// ブラウザに保存されているデータを使う。なければ初期データを使う。
-			let menu = JSON.parse(localStorage.getItem("menu_v3")) || defaultMenu;
+let menu;
 
-			function updateUI() {
-			  const cats = ['main', 'hard', 'side', 'soup'];
-			  cats.forEach(c => {
-			    const td = document.getElementById(`list-${c}`);
-			    td.innerHTML = "";
-			    menu[c].sort((a, b) => a.localeCompare(b, 'ja'));
-			    menu[c].forEach((item, i) => {
-			      const div = document.createElement("div");
-			      div.style.marginBottom = "8px";
-			      div.innerHTML = `${item}<span class="del-text" onclick="doRemove('${c}',${i})">削除</span>`;
-			      td.appendChild(div);
-			    });
-			  });
-			  localStorage.setItem("menu_v3", JSON.stringify(menu));
-			}
+// 起動時のデータ読み込み処理
+function loadInitialData() {
+  const saved = localStorage.getItem("menu_v4");
+  // 保存データが「空っぽ（メニューが0件）」の場合も初期データを読み込むように修正
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (parsed.main && (parsed.main.length > 0 || parsed.side.length > 0)) {
+      menu = parsed;
+    } else {
+      menu = JSON.parse(JSON.stringify(IMAGE_MENU));
+    }
+  } else {
+    menu = JSON.parse(JSON.stringify(IMAGE_MENU));
+  }
+}
 
-			// リセット機能（これを押すと初期メニューが出るようになります）
-			function resetToDefault() {
-			  if(confirm("全てのメニューをリセットして、画像の初期メニューに戻しますか？")) {
-			    menu = JSON.parse(JSON.stringify(defaultMenu));
-			    updateUI();
-			    alert("初期メニューを読み込みました！");
-			  }
-			}
+function updateUI() {
+  const cats = ['main', 'hard', 'side', 'soup'];
+  cats.forEach(c => {
+    const td = document.getElementById(`list-${c}`);
+    if(!td) return;
+    td.innerHTML = "";
+    
+    // ソート
+    menu[c].sort((a, b) => a.localeCompare(b, 'ja'));
 
-			function doAdd(c) {
-			  const input = document.getElementById(`in-${c}`);
-			  const val = input.value.trim();
-			  if(!val) return;
-			  if(menu[c].includes(val)) { alert("既にあります"); return; }
-			  menu[c].push(val);
-			  input.value = "";
-			  updateUI();
-			}
+    menu[c].forEach((item, i) => {
+      const div = document.createElement("div");
+      div.style.padding = "5px 0";
+      div.style.borderBottom = "1px dashed #eee";
+      div.innerHTML = `${item}<span class="del-text" onclick="doRemove('${c}',${i})">削除</span>`;
+      td.appendChild(div);
+    });
+  });
+  localStorage.setItem("menu_v4", JSON.stringify(menu));
+}
 
-			window.doRemove = function(c, i) {
-			  if(confirm("削除しますか？")) {
-			    menu[c].splice(i, 1);
-			    updateUI();
-			  }
-			};
+// 強制リセット
+function forceReset() {
+  if(confirm("以前のデータを消して、画像メニューを読み込みますか？")) {
+    menu = JSON.parse(JSON.stringify(IMAGE_MENU));
+    updateUI();
+  }
+}
 
-			function doRoulette(mode) {
-			  const disp = document.getElementById("result-display");
-			  disp.innerHTML = "抽選中...";
-			  setTimeout(() => {
-			    let pool = (mode === 'hard') ? [...menu.main, ...menu.hard] : [...menu.main];
-			    if(pool.length === 0) { alert("メニューがありません"); return; }
-			    let selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, 5);
-			    disp.innerHTML = selected.map((d, i) => `
-			      <div class="day-card">
-			        <span style="font-size:12px; color:#888;">Day ${i+1}</span><br>
-			        🍖 <b>${d}</b><br>
-			        <span style="font-size:14px;">🥗 ${menu.side[Math.floor(Math.random()*menu.side.length)] || "-"} / 🍲 ${menu.soup[Math.floor(Math.random()*menu.soup.length)] || "-"}</span>
-			      </div>
-			    `).join("");
-			  }, 400);
-			}
+function doAdd(c) {
+  const input = document.getElementById(`in-${c}`);
+  const val = input.value.trim();
+  if(!val) return;
+  if(menu[c].includes(val)) { alert("既にあります"); return; }
+  menu[c].push(val);
+  input.value = "";
+  updateUI();
+}
 
-			function copyData() {
-			  navigator.clipboard.writeText(JSON.stringify(menu)).then(() => alert("コピーしました！"));
-			}
+window.doRemove = function(c, i) {
+  if(confirm("削除しますか？")) {
+    menu[c].splice(i, 1);
+    updateUI();
+  }
+};
 
-			function restoreData() {
-			  const str = prompt("コピーした文字を貼り付けてください");
-			  if(str) {
-			    try {
-			      const parsed = JSON.parse(str);
-			      if(parsed.main) { menu = parsed; updateUI(); alert("復元完了！"); }
-			    } catch(e) { alert("形式が正しくありません"); }
-			  }
-			}
+function doRoulette(mode) {
+  const disp = document.getElementById("result-display");
+  disp.innerHTML = "<div class='day-card'>抽選中...</div>";
+  setTimeout(() => {
+    let pool = (mode === 'hard') ? [...menu.main, ...menu.hard] : [...menu.main];
+    if(pool.length === 0) { alert("メニューがありません"); return; }
+    let selected = [...pool].sort(() => 0.5 - Math.random()).slice(0, 5);
+    disp.innerHTML = selected.map((d, i) => `
+      <div class="day-card">
+        <span style="font-size:12px; color:#888;">${i+1}日目</span><br>
+        🍖 <b>${d}</b><br>
+        <span style="font-size:15px;">🥗 ${menu.side[Math.floor(Math.random()*menu.side.length)] || "-"} / 🍲 ${menu.soup[Math.floor(Math.random()*menu.soup.length)] || "-"}</span>
+      </div>
+    `).join("");
+  }, 400);
+}
 
-			document.getElementById("add-main").addEventListener("click", () => doAdd('main'));
-			document.getElementById("add-hard").addEventListener("click", () => doAdd('hard'));
-			document.getElementById("add-side").addEventListener("click", () => doAdd('side'));
-			document.getElementById("add-soup").addEventListener("click", () => doAdd('soup'));
-			document.getElementById("btn-normal").addEventListener("click", () => doRoulette('normal'));
-			document.getElementById("btn-hard").addEventListener("click", () => doRoulette('hard'));
-			document.getElementById("btn-copy").addEventListener("click", copyData);
-			document.getElementById("btn-restore").addEventListener("click", restoreData);
-			document.getElementById("btn-reset").addEventListener("click", resetToDefault);
+function copyData() {
+  navigator.clipboard.writeText(JSON.stringify(menu)).then(() => alert("コピー完了！"));
+}
 
-			updateUI();
-		</script>
-	</body>
+function restoreData() {
+  const str = prompt("コピーした文字を貼り付けてください");
+  if(str) {
+    try {
+      const parsed = JSON.parse(str);
+      if(parsed.main) { menu = parsed; updateUI(); alert("復元完了！"); }
+    } catch(e) { alert("形式が違います"); }
+  }
+}
+
+// イベント設定
+document.getElementById("add-main").addEventListener("click", () => doAdd('main'));
+document.getElementById("add-hard").addEventListener("click", () => doAdd('hard'));
+document.getElementById("add-side").addEventListener("click", () => doAdd('side'));
+document.getElementById("add-soup").addEventListener("click", () => doAdd('soup'));
+document.getElementById("btn-normal").addEventListener("click", () => doRoulette('normal'));
+document.getElementById("btn-hard").addEventListener("click", () => doRoulette('hard'));
+document.getElementById("btn-copy").addEventListener("click", copyData);
+document.getElementById("btn-restore").addEventListener("click", restoreData);
+document.getElementById("btn-reset").addEventListener("click", forceReset);
+
+// 実行
+loadInitialData();
+updateUI();
+</script>
+</body>
 </html>
